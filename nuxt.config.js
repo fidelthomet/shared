@@ -7,7 +7,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'SENSES Styleguide & Component Library' },
+      { hid: 'description', name: 'description', content: 'SENSES Style and Components' },
       { name: 'msapplication-TileColor', content: '#2b5797' },
       { name: 'theme-color', content: '#ffffff' }
     ],
@@ -20,6 +20,9 @@ module.exports = {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#8665C7' }
     ]
   },
+  css: [
+    '@/assets/style/base.scss'
+  ],
   /*
   ** Customize the progress bar color
   */
