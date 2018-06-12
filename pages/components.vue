@@ -1,5 +1,6 @@
 <template>
   <section class="container">
+    <resize-observer @notify="setMaxWidth()" />
     <div class="tags filter">
       <span
         :class="{active: filter.length === 0}"
@@ -26,7 +27,9 @@
       </span>
       <br>
       <div class="component-outer">
-        <div class="component-inner">
+        <div
+          :style="{'max-width': `${maxWidth}px`}"
+          class="component-inner">
           <component :is="component.name"/>
         </div>
       </div>
@@ -59,19 +62,32 @@
         </div>
       </div>
     </div>
+    <div class="max-width">
+      max-width: {{ maxWidth }}px
+      <input
+        ref="maxWidth"
+        v-model="maxWidth"
+        :max="maxMaxWidth"
+        type="range"
+        min="0">
+    </div>
   </section>
 </template>
 
 <script>
 import components from '~/components'
+import { ResizeObserver } from 'vue-resize'
 
 export default {
   components: {
-    ...components
+    ...components,
+    ResizeObserver
   },
   data () {
     return {
-      filter: []
+      filter: [],
+      maxWidth: Infinity,
+      maxMaxWidth: Infinity
     }
   },
   computed: {
@@ -116,6 +132,13 @@ export default {
       } else {
         this.filter.push(tag)
       }
+    },
+    setMaxWidth () {
+      const maxMaxWidth = this.$refs.maxWidth.getBoundingClientRect().width
+      if (this.maxMaxWidth <= this.maxWidth) {
+        this.maxWidth = maxMaxWidth
+      }
+      this.maxMaxWidth = maxMaxWidth
     }
   }
 }
@@ -156,6 +179,7 @@ h2 {
     background: $color-white;
     display: inline-block;
     vertical-align: top;
+    overflow: scroll;
   }
 }
 
@@ -172,6 +196,21 @@ h2 {
     pre {
       margin-bottom: $spacing-unit / 2;
     }
+  }
+}
+
+.max-width {
+  position: fixed;
+  background: $color-violet;
+  color: $color-white;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: $spacing-unit / 4 $spacing-unit / 2;
+
+  input[type="range"] {
+    display: block;
+    width: 100%;
   }
 }
 </style>
