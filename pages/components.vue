@@ -5,9 +5,10 @@
       :key="component.name">
       <h2>{{ component.name }}</h2>
       <span class="tags">
-        <code
+        <span
           v-for="tag in component.tags"
-          :key="`${component.name}-${tag}`">{{ tag }}</code>
+          :key="`${component.name}-${tag}`"
+          class="tag">{{ tag }}</span>
       </span>
       <br>
       <div class="component-outer">
@@ -18,10 +19,29 @@
       <div class="meta">
         <div class="code">
           <pre>{{ component.markupShort }}</pre>
-          <pre>{{ component.markup }}</pre>
+          <pre v-if="component.props">{{ component.markup }}</pre>
         </div>
-        <div class="props">
-          <pre>{{ JSON.stringify(component.props, null, 2) }}</pre>
+        <div
+          v-if="component.props"
+          class="props">
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="prop in component.props"
+                :key="`${component.name}-${prop.name}`">
+                <td>{{ prop.name }}</td>
+                <td>{{ prop.type }}</td>
+                <td>{{ prop.default }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -39,14 +59,30 @@ export default {
     components () {
       return Object.keys(components).map(name => {
         const component = components[name]
-        const props = component.props
-        const markupProps = props ? Object.keys(props).map(propName => `${propName}="${props[propName].default}"`).join('\n  ') : null
+        let props = null
+        let markup = null
+        if (component.props) {
+          props = Object.keys(component.props).map(propName => {
+            const prop = component.props[propName]
+            return {
+              name: propName,
+              type: prop.type.name,
+              default: typeof prop.default === 'function' ? JSON.stringify(prop.default()) : prop.default
+            }
+          })
+          const propsString = props.map(p => {
+            if (p.type === 'Object' || p.type === 'Array') return `:${p.name}="[${p.type}]"`
+            if (p.type === 'String') return `${p.name}="${p.default}"`
+            return `:${p.name}="${p.default}"`
+          }).join('\n  ')
+          markup = `<${name}${props.length > 1 ? '\n  ' : ' '}${propsString}/>`
+        }
         return {
           name,
           tags: component.tags,
-          props: component.props,
+          props,
           markupShort: `<${name}/>`,
-          markup: `<${name}\n  ${markupProps}/>`
+          markup
         }
       })
     }
@@ -57,9 +93,21 @@ export default {
 <style scoped lang="scss">
 @import "~@/assets/style/global";
 
+h2 {
+  display: inline-block;
+}
+
 .tags {
-  code {
-    margin-right: $spacing-unit * 0.25;
+  .tag {
+    margin-left: $spacing-unit * 0.25;
+    background: $color-pale-gray;
+    padding: 0 #{$spacing-unit / 8};
+
+    &:hover, &.active {
+      background: $color-violet;
+      color: $color-white;
+      cursor: default;
+    }
   }
 }
 
@@ -79,14 +127,14 @@ export default {
   @include flex-row;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin: 0 #{-$spacing-unit / 4};
+  margin: 0 #{-$spacing-unit / 4} $spacing-unit;
 
   .props, .code {
     flex: auto;
-    margin: -$spacing-unit / 2 $spacing-unit / 4;
+    margin: 0 $spacing-unit / 4;
 
     pre {
-      margin-top: $spacing-unit / 2;
+      margin-bottom: $spacing-unit / 2;
     }
   }
 }
