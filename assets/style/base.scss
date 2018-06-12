@@ -25,13 +25,25 @@ a {
 }
 
 code, pre {
-  font-size: 1rem;
+  font: normal normal 100%/1.2 $font-mono;
+  // font-size: 1rem;
+
   background: $color-pale-gray;
   border: 1px solid $color-light-gray;
   border-radius: 2px;
   padding: 0 #{$spacing-unit / 8};
 }
 
+
 pre {
   padding: $spacing-unit / 16 $spacing-unit / 4;
+  line-height: 1.4;
+
+  code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+}
 }
