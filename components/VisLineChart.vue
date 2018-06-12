@@ -18,6 +18,16 @@ export default {
     stroke: {
       type: String,
       default: '#000'
+    },
+    values: {
+      type: Array,
+      default () {
+        return [1, 2, 3]
+      }
+    },
+    minValue: {
+      type: Number,
+      default: 0
     }
   }
 }
