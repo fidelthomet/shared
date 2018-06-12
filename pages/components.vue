@@ -1,5 +1,17 @@
 <template>
   <section class="container">
+    <div class="tags filter">
+      <span
+        :class="{active: filter.length === 0}"
+        class="tag"
+        @click="filter = []">All</span>
+      <span
+        v-for="tag in tags"
+        :key="`${tag}`"
+        :class="{active: filter.find(f => f === tag)}"
+        class="tag"
+        @click="toggleFilter(tag)">{{ tag }}</span>
+    </div>
     <div
       v-for="component in components"
       :key="component.name">
@@ -8,7 +20,9 @@
         <span
           v-for="tag in component.tags"
           :key="`${component.name}-${tag}`"
-          class="tag">{{ tag }}</span>
+          :class="{active: filter.find(f => f === tag)}"
+          class="tag"
+          @click="toggleFilter(tag)">{{ tag }}</span>
       </span>
       <br>
       <div class="component-outer">
@@ -55,6 +69,11 @@ export default {
   components: {
     ...components
   },
+  data () {
+    return {
+      filter: []
+    }
+  },
   computed: {
     components () {
       return Object.keys(components).map(name => {
@@ -84,7 +103,19 @@ export default {
           markupShort: `<${name}/>`,
           markup
         }
-      })
+      }).filter(c => [...new Set([...this.filter, ...c.tags])].length === c.tags.length)
+    },
+    tags () {
+      return [...new Set(this.components.map(c => c.tags).reduce((a, b) => a.concat(b), []))]
+    }
+  },
+  methods: {
+    toggleFilter (tag) {
+      if (this.filter.find(f => f === tag)) {
+        this.filter = this.filter.filter(f => f !== tag)
+      } else {
+        this.filter.push(tag)
+      }
     }
   }
 }
@@ -93,13 +124,18 @@ export default {
 <style scoped lang="scss">
 @import "~@/assets/style/global";
 
+.filter {
+  margin-bottom: $spacing-unit;
+}
+
 h2 {
   display: inline-block;
+  margin-right: $spacing-unit * 0.25;
 }
 
 .tags {
   .tag {
-    margin-left: $spacing-unit * 0.25;
+    margin-right: $spacing-unit * 0.25;
     background: $color-pale-gray;
     padding: 0 #{$spacing-unit / 8};
 
