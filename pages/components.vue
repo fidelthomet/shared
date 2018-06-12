@@ -41,7 +41,6 @@ export default {
         const component = components[name]
         const props = component.props
         const markupProps = props ? Object.keys(props).map(propName => `${propName}="${props[propName].default}"`).join('\n  ') : null
-        console.log(markupProps)
         return {
           name,
           tags: component.tags,
@@ -51,9 +50,6 @@ export default {
         }
       })
     }
-  },
-  created () {
-    console.log(this.components)
   }
 }
 </script>

@@ -29,9 +29,6 @@ export default {
     return {
       colors: Object.keys(colors).map(name => ({name, value: colors[name]}))
     }
-  },
-  created () {
-    console.log(colors)
   }
 }
 </script>
