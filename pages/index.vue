@@ -1,48 +1,61 @@
 <template>
   <section class="container">
-    <div>
-      <VisLineChart/>
+    <h2>Colors</h2>
+    <div
+      v-for="color in colors"
+      :key="color.name"
+      class="color">
+      <div
+        :style="{background: color.value}"
+        class="fill"/>
+      <div class="code">
+        <code>${{ color.name }}</code>
+        <br>
+        <code>{{ color.value }}</code>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 import VisLineChart from '~/components/VisLineChart.vue'
+import colors from '~/assets/style/colors.scss' // eslint-disable-line
 
 export default {
   components: {
     VisLineChart
+  },
+  data () {
+    return {
+      colors: Object.keys(colors).map(name => ({name, value: colors[name]}))
+    }
+  },
+  created () {
+    console.log(colors)
   }
 }
 </script>
 
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style scoped lang="scss">
+@import "~@/assets/style/global";
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+.color {
+  @include flex-row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  line-height: 20px;
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  .fill {
+    width: $spacing-unit * 4;
+    height: $spacing-unit * 1.5;
+    border: 1px solid $color-pale-gray;
+    margin: 0 #{$spacing-unit / 4} #{$spacing-unit / 4} 0;
+  }
+  .code {
+    @include flex-column;
+    align-items: flex-start;
+    justify-content: space-around;
+    height: 48px;
+  }
 }
 </style>
