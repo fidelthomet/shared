@@ -1,18 +1,4 @@
-$color-violet: #8665C7;
-$color-yellow: #FEAE00;
-$color-green: #39C88A;
-$color-red: #B7005E;
-$color-blue: #1BA3D0;
-
-$color-black: #222;
-$color-white: #FFF;
-$color-pale-gray: #F3F3F3;
-$color-light-gray: #DDD;
-$color-gray: #BBB;
-$color-dark-gray: #888;
-
-$color-text: $color-black;
-$color-text-highlight: $color-violet;
+@import "colors";
 
 $font-sans: "IBM Plex Sans", "Helvetica Neue", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", Helvetica, sans-serif;
 $font-mono: "IBM Plex Mono", monospace;

@@ -1,0 +1,31 @@
+$color-violet: #8665C7;
+$color-blue: #1BA3D0;
+$color-green: #39C88A;
+$color-yellow: #FEAE00;
+$color-red: #B7005E;
+
+$color-black: #222;
+$color-white: #FFF;
+$color-pale-gray: #F3F3F3;
+$color-light-gray: #DDD;
+$color-gray: #BBB;
+$color-dark-gray: #888;
+
+$color-text: $color-black;
+$color-text-highlight: $color-violet;
+
+:export {
+  color-violet: $color-violet;
+  color-blue: $color-blue;
+  color-green: $color-green;
+  color-yellow: $color-yellow;
+  color-red: $color-red;
+  color-black: $color-black;
+  color-white: $color-white;
+  color-pale-gray: $color-pale-gray;
+  color-light-gray: $color-light-gray;
+  color-gray: $color-gray;
+  color-dark-gray: $color-dark-gray;
+  color-text: $color-text;
+  color-text-highlight: $color-text-highlight;
+}

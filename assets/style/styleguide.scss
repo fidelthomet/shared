@@ -1,0 +1,30 @@
+@import "base";
+
+html {
+  font: normal normal 100%/1.6 $font-mono;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    // margin: #{$spacing-unit * 0.25} 0;
+    // font-weight: normal;
+  }
+
+  a {
+    font-weight: normal;
+    font-style: italic;
+
+    &:hover, &.active, &.nuxt-link-exact-active {
+      color: $color-white;
+      background: $color-text-highlight;
+    }
+  }
+
+  .container {
+    padding: $spacing-unit / 2;
+  }
+}
