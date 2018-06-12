@@ -1,17 +1,24 @@
 <template>
-  <section class="container">
-    <div>
-      <VisLineChart/>
-    </div>
-  </section>
+  <section
+    class="container"
+    v-html="html"/>
 </template>
 
 <script>
-import VisLineChart from '~/components/VisLineChart.vue'
+import markdownIt from 'markdown-it'
+import README from '../README.md'
+// import EventEmitter from '~/components/EventEmitter.vue'
+// import Glossary from '~/components/Glossary.vue'
 
+const md = markdownIt({
+  html: true,
+  typographer: true
+})
 export default {
-  components: {
-    VisLineChart
+  data () {
+    return {
+      html: md.render(README.replace(/.*\n/, ''))
+    }
   }
 }
 </script>
