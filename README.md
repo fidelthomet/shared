@@ -1,3 +1,5 @@
+*Depricated: Please use [Library](https://github.com/SensesProject/library) instead*
+
 # shared
 
 > Nuxt.js project
